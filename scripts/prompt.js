@@ -10,7 +10,7 @@ input.setAttribute("placeholder", "Enter command...");
 input.setAttribute("id", "commandlight_prompt");
 input.setAttribute("name", "commandlight_prompt");
 input.setAttribute("autofocus", "autofocus");
-input.style.position = "absolute";
+input.style.position = "fixed";
 input.style.width = "80%";
 input.style.top = "30%";
 input.style.right = "10%";
@@ -31,7 +31,9 @@ body.appendChild(form);
 document.getElementById("commandlight_form").addEventListener("submit", function(event){
     //Get command
     var command = document.getElementById("commandlight_prompt").value;
-    alert(command);
+
+    //Open tab
+    window.open(command, '_blank');
 
     //Remove prompt display
     var form = document.getElementById("commandlight_form");

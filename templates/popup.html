@@ -1,0 +1,29 @@
+<!doctype html>
+<!--
+ This page is shown when the extension button is clicked, because the
+ "browser_action" field in manifest.json contains the "default_popup" key with
+ value "popup.html".
+ -->
+<html>
+  <head>
+    <title>QuickCommands</title>
+    <style>
+
+    </style>
+    <link rel="stylesheet" type="text/css" href="../css/popup.css">
+
+  </head>
+  <body>
+    <div id="header">
+        <h2 id="title" class="textCenter">Quick Commands</h2>
+    </div>
+    <div id="content">
+        <h3 class="textCenter">Commands</h3>
+        <div id="commands"></div>
+        <div id="addCommandForm"></div>
+        <div id="addCommandBtn">+ Add</div>
+    </div>
+  </body>
+
+  <script src="../scripts/popup.js"></script>
+</html>
