@@ -56,7 +56,7 @@ document.getElementById("addCommandBtn").addEventListener("click", function(even
             console.log(command + " " + url);
 
             chrome.runtime.sendMessage({"command": command, "url": url},
-                function(response) {
+                function(res) {
                     console.log(response.res);
             });
 
