@@ -49,7 +49,6 @@ chrome.runtime.onMessage.addListener(
                 } else {
                     for (var action of data.commands) {
                         if (action.command == command) {
-                            console.log(JSON.stringify(data.commands));
                             sendResponse({"res": action.url});
                         }
                     }
