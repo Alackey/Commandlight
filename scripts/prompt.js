@@ -26,18 +26,26 @@ form.appendChild(input);
 //Add form to page
 var body = document.getElementsByTagName('body')[0];
 body.appendChild(form);
+document.getElementById("commandlight_prompt").focus();
 
 //Add onsubmit listener
 document.getElementById("commandlight_form").addEventListener("submit", function(event){
     //Get command
     var command = document.getElementById("commandlight_prompt").value;
 
-    //Open tab
-    window.open(command, '_blank');
+    chrome.runtime.sendMessage({"command": command},
+        function(response) {
+            var url = response.res;
+            console.log("Url for command: " + url);
 
-    //Remove prompt display
-    var form = document.getElementById("commandlight_form");
-    form.parentNode.removeChild(form);
+            //Remove prompt display
+            var form = document.getElementById("commandlight_form");
+            form.parentNode.removeChild(form);
+
+            //Open tab
+            window.open(url, '_blank');
+
+    });
 
     event.preventDefault();
 });

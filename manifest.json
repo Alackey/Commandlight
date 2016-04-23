@@ -13,6 +13,7 @@
         "default_popup": "templates/popup.html"
     },
     "permissions": [
+        "*://*/*",
         "activeTab",
         "tabs",
         "storage"

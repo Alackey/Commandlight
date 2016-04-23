@@ -53,10 +53,11 @@ document.getElementById("addCommandBtn").addEventListener("click", function(even
             //Get command
             var command = document.getElementById("input_cmd").value;
             var url = document.getElementById("input_url").value;
+            url = url.match(/^http[s]*:\/\//) ? url : 'http://' + url;  //Add http
             console.log(command + " " + url);
 
             chrome.runtime.sendMessage({"command": command, "url": url},
-                function(res) {
+                function(response) {
                     console.log(response.res);
             });
 
