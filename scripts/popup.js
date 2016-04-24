@@ -54,67 +54,95 @@ document.getElementById("addCommandBtn").addEventListener("click", function(even
 
     //Add command onsubmit listener
     document.getElementById("cmd_form").addEventListener("submit",
-        function(event){
+    function(event){
 
-            //Get command
-            var command = document.getElementById("input_cmd").value;
-            var url = document.getElementById("input_url").value;
-            url = url.match(/^http[s]*:\/\//) ? url : 'http://' + url;  //Add http
-            console.log(command + " " + url);
+        //Get command
+        var command = document.getElementById("input_cmd").value;
+        var url = document.getElementById("input_url").value;
+        url = url.match(/^http[s]*:\/\//) ? url : 'http://' + url;  //Add http
+        console.log(command + " " + url);
 
-            chrome.runtime.sendMessage({"command": command, "url": url},
-                function(response) {
-                    console.log(response.res);
-            });
+        chrome.runtime.sendMessage({"command": command, "url": url},
+        function(response) {
+            console.log(response.res);
+        });
 
-            //Remove cmd_form
-            var form = document.getElementById("cmd_form");
-            form.parentNode.removeChild(form);
+        //Remove cmd_form
+        var form = document.getElementById("cmd_form");
+        form.parentNode.removeChild(form);
 
-            event.preventDefault();
+        event.preventDefault();
     });
 });
 
 function displayCommands () {
     chrome.runtime.sendMessage({"action": "getCommands"},
-        function(response) {
-            console.log("response: " + JSON.stringify(response.res[0]));
-            var commands = response.res;
+    function(response) {
+        var commands = response.res;
 
-            if (commands.length === 0) {
-                document.getElementsByTagName("h3").textContent = "No Commands"
-            } else {
-                var table  = document.getElementById("commands");
-                var tableRow = document.createElement("tr");
+        if (commands.length === 0) {
+            document.getElementsByTagName("h3").textContent = "No Commands"
+        } else {
+            var table  = document.getElementById("commands");
+            var tableRow = document.createElement("tr");
+            var delete_icon = document.createElement("img");
 
-                //Add Table headers
-                var th_command = document.createElement("th");
-                var th_url = document.createElement("th");
-                th_command.innerHTML = "Command";
-                th_url.innerHTML = "Link";
+            //create delete element
+            delete_icon.setAttribute("class", "deleteIcon");
+            delete_icon.setAttribute("src", "../img/Delete-24.png");
 
-                tableRow.appendChild(th_command);
-                tableRow.appendChild(th_url);
+            //Add Table headers
+            var th_command = document.createElement("th");
+            var th_url = document.createElement("th");
+            th_command.innerHTML = "Command";
+            th_url.innerHTML = "Link";
+
+            tableRow.appendChild(th_command);
+            tableRow.appendChild(th_url);
+            table.appendChild(tableRow);
+
+            //Display Commands
+            for (var action of commands) {
+                tableRow = document.createElement("tr");
+                var command = document.createElement("td");
+                var url = document.createElement("td");
+
+                command.style.width = "30%";
+                url.style.width = "70%";
+
+                command.innerHTML = action.command;
+                url.innerHTML = action.url;
+
+                tableRow.appendChild(command);
+                tableRow.appendChild(url);
+                tableRow.appendChild(delete_icon.cloneNode());
                 table.appendChild(tableRow);
-
-                //Display Commands
-                for (var action of commands) {
-                    console.log(action.url + " : " + action.command);
-                    tableRow = document.createElement("tr");
-                    var command = document.createElement("td");
-                    var url = document.createElement("td");
-
-                    command.style.width = "30%";
-                    url.style.width = "70%";
-
-                    command.innerHTML = action.command;
-                    url.innerHTML = action.url;
-
-                    tableRow.appendChild(command);
-                    tableRow.appendChild(url);
-
-                    table.appendChild(tableRow);
-                }
             }
+
+            //Add event listener for delete
+            var all_delete_icons = document.getElementsByClassName("deleteIcon");
+            for(var i = 0; i < all_delete_icons.length; i++) {
+                all_delete_icons.item(i).addEventListener("click", function(data) {
+                    console.log(this);
+                    //Get and add command and action to conirmation window
+                    document.getElementById("confirm_cmd").innerHTML =
+                        this.previousSibling.previousSibling.innerHTML;
+                    document.getElementById("confirm_action").innerHTML =
+                        this.previousSibling.innerHTML;
+                    document.getElementById("confirmationWindow").style.display = "inline";
+                    // var content = document.getElementById("content");
+                    // var confirmation_window = document.createElement("div");
+                    // var question = document.createElement("p");
+                    // var command_cmd = document.createElement()
+                    //
+                    //
+                    // question.innerHTML = "Do you want to delete this command?"
+                    //
+                    // confirmation_window.setAttribute("id", "confirmationWindow");
+                    // confirmation_window.innerHTML = "Do you want to delete this command?";
+                    // content.appendChild(confirmation_window);
+                });
+            }
+        }
     });
 }

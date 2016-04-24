@@ -40,6 +40,68 @@ body {
     font-size: 1.2em;
 }
 
+#confirmationWindow {
+    display: none;
+    width: 88%;
+    position: absolute;
+    top: 50px;
+    height: 100%;
+    padding-top: 15%;
+    background-color: white;
+    text-align: center;
+}
+
+#confirm_table {
+    width: 100%;
+    border-spacing: 50px 10px;
+    margin: 10px 0px 10px 0px;
+}
+
+#confirm_table td {
+    border-bottom: 1px solid black;
+    padding-bottom: 4px;
+    font-size: 1.2em;
+    text-align: left;
+}
+
+#confirm_cmd {
+    width: 30%;
+}
+
+#confirm_action {
+    width: 70%;
+}
+
+#confirm_cancel, #confirm_delete {
+    display: inline-block;
+    padding: 5px;
+    font-size: 1.2em;
+    transition: background-color 200ms;
+}
+
+#confirm_cancel {
+    border: 2px solid gray;
+    background-color: gray;
+    color: white;
+    margin-right: 50px;
+}
+
+#confirm_cancel:hover {
+    color: black;
+    background-color: white;
+}
+
+#confirm_delete {
+    border: 2px solid #cc181e;
+    background-color: #cc181e;
+    color: white;
+}
+
+#confirm_delete:hover {
+    background-color: white;
+    color: black;
+}
+
 #addCommandBtn {
     width: fit-content;
     background-color: #cc181e;
