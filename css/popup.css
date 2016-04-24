@@ -31,6 +31,8 @@ body {
     width: 100%;
     margin: 17px 0px 10px 0px;
     border-spacing: 3px 10px;
+    max-height: 400px;
+    overflow: scroll;
 }
 
 #commands td {
@@ -45,7 +47,7 @@ body {
     font-size: 1.1em;
     padding: 3px 8px 3px 8px;
     margin-left: auto;
-    margin-top: 5px;
+    margin-top: 10px;
     border-radius: 4px;
 }
 
