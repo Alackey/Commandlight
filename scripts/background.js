@@ -57,6 +57,10 @@ chrome.runtime.onMessage.addListener(
                     sendResponse({"res": "Command does not exist"});
                 }
             });
+        } else if (request.action == "getCommands") {
+            chrome.storage.sync.get("commands", function(data) {
+                sendResponse({"res": data.commands});
+            });
         }
         return true;
     });

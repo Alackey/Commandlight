@@ -1,4 +1,7 @@
 
+//On Load
+displayCommands();
+
 //Clicking the "+ Add" button
 document.getElementById("addCommandBtn").addEventListener("click", function(event){
     var form = document.createElement("form");
@@ -19,6 +22,7 @@ document.getElementById("addCommandBtn").addEventListener("click", function(even
     input_cmd.style.borderTop = "0";
     input_cmd.style.borderRight = "0";
     input_cmd.style.borderLeft = "0";
+    input_cmd.style.fontSize = "1.2em";
 
     input_url.setAttribute("type", "text");
     input_url.setAttribute("placeholder", "URL");
@@ -29,6 +33,7 @@ document.getElementById("addCommandBtn").addEventListener("click", function(even
     input_url.style.borderTop = "0";
     input_url.style.borderRight = "0";
     input_url.style.borderLeft = "0";
+    input_url.style.fontSize = "1.2em";
 
     submit.setAttribute("type", "submit");
     submit.setAttribute("id", "input_submit");
@@ -36,6 +41,7 @@ document.getElementById("addCommandBtn").addEventListener("click", function(even
     submit.style.padding = "1px 3px 1px 3px";
     submit.style.border = "0";
     submit.style.marginLeft = "1px";
+    submit.style.fontSize = "1.2em";
 
     //Add inputs to form
     form.appendChild(input_cmd);
@@ -68,3 +74,47 @@ document.getElementById("addCommandBtn").addEventListener("click", function(even
             event.preventDefault();
     });
 });
+
+function displayCommands () {
+    chrome.runtime.sendMessage({"action": "getCommands"},
+        function(response) {
+            console.log("response: " + JSON.stringify(response.res[0]));
+            var commands = response.res;
+
+            if (commands.length === 0) {
+                document.getElementsByTagName("h3").textContent = "No Commands"
+            } else {
+                var table  = document.getElementById("commands");
+                var tableRow = document.createElement("tr");
+
+                //Add Table headers
+                var th_command = document.createElement("th");
+                var th_url = document.createElement("th");
+                th_command.innerHTML = "Command";
+                th_url.innerHTML = "Link";
+
+                tableRow.appendChild(th_command);
+                tableRow.appendChild(th_url);
+                table.appendChild(tableRow);
+
+                //Display Commands
+                for (var action of commands) {
+                    console.log(action.url + " : " + action.command);
+                    tableRow = document.createElement("tr");
+                    var command = document.createElement("td");
+                    var url = document.createElement("td");
+
+                    command.style.width = "30%";
+                    url.style.width = "70%";
+
+                    command.innerHTML = action.command;
+                    url.innerHTML = action.url;
+
+                    tableRow.appendChild(command);
+                    tableRow.appendChild(url);
+
+                    table.appendChild(tableRow);
+                }
+            }
+    });
+}
