@@ -8,7 +8,7 @@ chrome.commands.onCommand.addListener(function(command) {
 //Get command and url wanting to be added
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-        console.log("got message");
+
         //Adding a command
         if (request.url && request.command) {
             var url = request.url;
@@ -63,16 +63,14 @@ chrome.runtime.onMessage.addListener(
         //get all commands/actions
         } else if (request.req == "getCommands") {
             chrome.storage.sync.get("commands", function(data) {
-                console.log("got commands");
                 sendResponse({"res": data.commands});
             });
 
         } else if (request.req == "delete") {
-            console.log("going to delete");
+            console.log("going to get commands");
             chrome.storage.sync.get("commands", function(data) {
-
                 var commands = removeCommand(data.commands, request.command);
-
+                console.log(JSON.stringify(commands));
                 //Store command in chrome sync storage
                 chrome.storage.sync.set({"commands": commands}, function() {
                     sendResponse({"res": "Removed Commands"});
@@ -84,8 +82,8 @@ chrome.runtime.onMessage.addListener(
 
 //Remove command from commands
 function removeCommand(commands, cmdToDelete) {
+    console.log("start loop for removing command:" + cmdToDelete + ":");
     for (var i = 0; i < commands.length / 2; i++) {
-
         if (commands[i].command == cmdToDelete) {
             commands.splice(i, 1);
             return commands;
@@ -93,11 +91,13 @@ function removeCommand(commands, cmdToDelete) {
         //For odd length of array
         } else if (i == (commands.length - 1 - i)) {
             return commands;
+        } else if (commands.length == 1) {
+            return commands;
         }
 
-        if (commands[commands.length - 1 - i] == cmdToDelete) {
-            commands.splice(i, 1);
-
+        if (commands[commands.length - 1 - i].command == cmdToDelete) {
+            commands.splice(commands.length - 1 - i, 1);
+            return commands;
         }
 
     }

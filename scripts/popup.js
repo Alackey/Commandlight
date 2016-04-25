@@ -83,15 +83,23 @@ document.getElementById("confirm_cancel").addEventListener("click", function() {
 //Clicking delete on confirmation delete page
 document.getElementById("confirm_delete").addEventListener("click", function() {
     var cmd = document.getElementById("confirm_cmd").innerHTML;
-    console.log("on click of delete");
+    console.log(cmd);
     chrome.runtime.sendMessage({"req": "delete", "command": cmd},
     function(response){
-        console.log(response.res);
+
+        var tempIDNode = document.getElementById("confirm_q").nextSibling.nextSibling;
+        console.log(tempIDNode.id);
+        var row_id = tempIDNode.id;
+        tempIDNode.id = "tempID";
+        var row_ele = document.getElementById(row_id);
+        row_ele.parentNode.removeChild(row_ele);
+
         document.getElementById("confirmationWindow").style.display = "none";
     });
 
 });
 
+//Display all commands in the popup
 function displayCommands () {
     chrome.runtime.sendMessage({"req": "getCommands"},
     function(response) {
@@ -119,10 +127,13 @@ function displayCommands () {
             table.appendChild(tableRow);
 
             //Display Commands
+            var i = 0;
             for (var action of commands) {
                 tableRow = document.createElement("tr");
                 var command = document.createElement("td");
                 var url = document.createElement("td");
+
+                tableRow.setAttribute("id", "row" + i);
 
                 command.style.width = "30%";
                 url.style.width = "70%";
@@ -134,19 +145,23 @@ function displayCommands () {
                 tableRow.appendChild(url);
                 tableRow.appendChild(delete_icon.cloneNode());
                 table.appendChild(tableRow);
+
+                ++i;
             }
 
             //Add event listener for delete
             var all_delete_icons = document.getElementsByClassName("deleteIcon");
             for(var i = 0; i < all_delete_icons.length; i++) {
                 all_delete_icons.item(i).addEventListener("click", function(data) {
-                    console.log(this);
+                    document.getElementById("tempID")
+                        .setAttribute("id", this.parentElement.id);
 
                     //Get and add command and action to conirmation window
-                    document.getElementById("confirm_cmd").innerHTML =
-                        this.previousSibling.previousSibling.innerHTML;
                     document.getElementById("confirm_action").innerHTML =
                         this.previousSibling.innerHTML;
+                    document.getElementById("confirm_cmd").innerHTML =
+                        this.previousSibling.previousSibling.innerHTML;
+
                     document.getElementById("confirmationWindow").style.display = "inline";
 
                 });
