@@ -60,11 +60,43 @@ document.getElementById("addCommandBtn").addEventListener("click", function(even
         var command = document.getElementById("input_cmd").value;
         var url = document.getElementById("input_url").value;
         url = url.match(/^http[s]*:\/\//) ? url : 'http://' + url;  //Add http
-        console.log(command + " " + url);
 
+        //Send command background.js to be saved
         chrome.runtime.sendMessage({"command": command, "url": url},
         function(response) {
             console.log(response.res);
+
+            if (response.res == "Shortcut added successfully") {
+
+                //Display new command in opened popup
+                var tableRow = document.createElement("tr");
+                command_ele = document.createElement("td");
+                var action_ele = document.createElement("td");
+                var delete_icon = document.createElement("img");
+
+                //tablerow element
+                var id = document.getElementById("commands").lastChild.id;
+                id = "row" + (parseInt(id.split("w")[1]) + 1);
+                tableRow.setAttribute("id", id);
+
+                //Command and action elements
+                command_ele.innerHTML = command;
+                command_ele.style.width = "30%";
+                action_ele.innerHTML = url;
+                action_ele.style.width = "70%";
+
+                //create delete element
+                delete_icon.setAttribute("class", "deleteIcon");
+                delete_icon.setAttribute("src", "../img/Delete-24.png");
+
+                //Add commands, action, delete_icon to tableRow
+                tableRow.appendChild(command_ele);
+                tableRow.appendChild(action_ele);
+                tableRow.appendChild(delete_icon);
+
+                //Add tableRow to table
+                document.getElementById("commands").appendChild(tableRow);
+            }
         });
 
         //Remove cmd_form
