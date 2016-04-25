@@ -63,7 +63,7 @@ document.getElementById("commandlight_form").addEventListener("submit", function
     //Get command
     var command = document.getElementById("commandlight_prompt").value;
 
-    chrome.runtime.sendMessage({"command": command},
+    chrome.runtime.sendMessage({"req": "execute", "command": command},
         function(response) {
             var url = response.res;
             console.log("Url for command: " + url);

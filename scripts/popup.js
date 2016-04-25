@@ -75,8 +75,25 @@ document.getElementById("addCommandBtn").addEventListener("click", function(even
     });
 });
 
+//Clicking cancel on confirmation delete page
+document.getElementById("confirm_cancel").addEventListener("click", function() {
+    document.getElementById("confirmationWindow").style.display = "none";
+});
+
+//Clicking delete on confirmation delete page
+document.getElementById("confirm_delete").addEventListener("click", function() {
+    var cmd = document.getElementById("confirm_cmd").innerHTML;
+    console.log("on click of delete");
+    chrome.runtime.sendMessage({"req": "delete", "command": cmd},
+    function(response){
+        console.log(response.res);
+        document.getElementById("confirmationWindow").style.display = "none";
+    });
+
+});
+
 function displayCommands () {
-    chrome.runtime.sendMessage({"action": "getCommands"},
+    chrome.runtime.sendMessage({"req": "getCommands"},
     function(response) {
         var commands = response.res;
 
@@ -124,23 +141,14 @@ function displayCommands () {
             for(var i = 0; i < all_delete_icons.length; i++) {
                 all_delete_icons.item(i).addEventListener("click", function(data) {
                     console.log(this);
+
                     //Get and add command and action to conirmation window
                     document.getElementById("confirm_cmd").innerHTML =
                         this.previousSibling.previousSibling.innerHTML;
                     document.getElementById("confirm_action").innerHTML =
                         this.previousSibling.innerHTML;
                     document.getElementById("confirmationWindow").style.display = "inline";
-                    // var content = document.getElementById("content");
-                    // var confirmation_window = document.createElement("div");
-                    // var question = document.createElement("p");
-                    // var command_cmd = document.createElement()
-                    //
-                    //
-                    // question.innerHTML = "Do you want to delete this command?"
-                    //
-                    // confirmation_window.setAttribute("id", "confirmationWindow");
-                    // confirmation_window.innerHTML = "Do you want to delete this command?";
-                    // content.appendChild(confirmation_window);
+
                 });
             }
         }
