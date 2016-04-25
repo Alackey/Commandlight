@@ -2,6 +2,7 @@
     "background": {
         "scripts": ["scripts/background.js"]
     },
+    "options_page": "templates/manage.html",
     "manifest_version": 2,
 
     "name": "Commandlight",
