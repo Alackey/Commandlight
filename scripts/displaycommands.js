@@ -1,3 +1,9 @@
+//Check if on manage.html
+var on_managePage = false;
+if (document.title.split("-")[1] == " Manage") {
+    on_managePage = true;
+}
+
 //On Load
 displayCommands();
 
