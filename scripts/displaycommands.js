@@ -121,9 +121,22 @@ function displayCommands () {
         if (commands.length === 0) {
             document.getElementsByTagName("h3").textContent = "No Commands"
         } else {
+
             var table  = document.getElementById("commands");
             var tableRow = document.createElement("tr");
             var delete_icon = document.createElement("img");
+
+            //Edit button if on manage page
+            if (on_managePage) {
+                var td_edit_icon = document.createElement("td");
+                var edit_icon = document.createElement("img");
+
+                edit_icon.setAttribute("class", "editIcon");
+                edit_icon.setAttribute("src", "../img/Pencil-24.png");
+
+                td_edit_icon.appendChild(edit_icon);
+
+            }
 
             //create delete element
             delete_icon.setAttribute("class", "deleteIcon");
@@ -156,6 +169,12 @@ function displayCommands () {
 
                 tableRow.appendChild(command);
                 tableRow.appendChild(url);
+
+                //Edit icon
+                if (on_managePage) {
+                    tableRow.appendChild(td_edit_icon.cloneNode(true));
+                }
+
                 tableRow.appendChild(delete_icon.cloneNode());
                 table.appendChild(tableRow);
 
@@ -179,6 +198,7 @@ function displayCommands () {
 
                 });
             }
+
         }
     });
 }
