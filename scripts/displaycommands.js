@@ -266,9 +266,9 @@ function displayCommands () {
 
             //Submit listener for edit
             document.getElementById("form_edit").addEventListener("submit",
-            function() {
+            function(event) {
                 console.log("submited");
-                return false;
+                event.preventDefault();
             });
         }
     });
