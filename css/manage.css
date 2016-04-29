@@ -2,6 +2,10 @@
     font-size: 1.2em;
 }
 
+#form_edit {
+    display: none;
+}
+
 #confirmationWindow {
     display: none;
     width: 400px;

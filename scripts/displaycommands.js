@@ -181,12 +181,21 @@ function displayCommands () {
                 ++i;
             }
 
-            //Add event listener for delete
+            //All edit buttons
+            if (on_managePage) {
+                var all_edit_icons = document.getElementsByClassName("editIcon");
+            }
+
+            //All delete buttons
             var all_delete_icons = document.getElementsByClassName("deleteIcon");
+
+            //Event listeners for delete, edit
             for(var i = 0; i < all_delete_icons.length; i++) {
+
+                //Add event listener for delete buttons
                 all_delete_icons.item(i).addEventListener("click", function(data) {
                     document.getElementById("tempID")
-                        .setAttribute("id", this.parentElement.id);
+                            .setAttribute("id", this.parentElement.id);
 
                     //Get and add command and action to conirmation window
                     document.getElementById("confirm_action").innerHTML =
@@ -197,8 +206,70 @@ function displayCommands () {
                     document.getElementById("confirmationWindow").style.display = "inline";
 
                 });
+
+                //Add event listener for edit buttons
+                if (on_managePage) {
+                    all_edit_icons.item(i).addEventListener("click", function(data) {
+                        var command_field = this.parentNode.previousSibling
+                                            .previousSibling;
+                        var action_field = this.parentNode.previousSibling;
+
+                        var tr_id = command_field.parentNode.id;
+                        var edit_cmd_id = tr_id + "_edit_cmd";
+                        var edit_action_id = tr_id + "_edit_action";
+
+                        var td = document.createElement("td");
+                        var input = document.createElement("input");
+
+                        //Command input
+                        var command_edit = td.cloneNode();
+                        command_edit.style.width = "30%";
+
+                        var input_edit_cmd = input.cloneNode();
+                        input_edit_cmd.setAttribute("type", "text");
+                        input_edit_cmd.setAttribute("id", edit_cmd_id);
+                        input_edit_cmd.setAttribute("name", edit_cmd_id);
+                        input_edit_cmd.setAttribute("form", "form_edit");
+                        input_edit_cmd.value = command_field.innerHTML;
+                        input_edit_cmd.style.width = "100%";
+
+                        command_edit.appendChild(input_edit_cmd);
+
+                        //Action input
+                        var action_edit = td.cloneNode();
+                        action_edit.style.width = "70%";
+
+                        var input_edit_action = input.cloneNode();
+                        input_edit_action.setAttribute("type", "text");
+                        input_edit_action.setAttribute("id", edit_action_id);
+                        input_edit_action.setAttribute("name", edit_action_id);
+                        input_edit_action.setAttribute("form", "form_edit");
+                        input_edit_action.value = action_field.innerHTML;
+                        input_edit_action.style.width = "100%";
+
+                        action_edit.appendChild(input_edit_action);
+
+                        //Display input
+                        command_field.parentNode.insertBefore(command_edit,
+                                                              command_field);
+                        command_field.parentNode.insertBefore(action_edit,
+                                                              command_field);
+
+                        //Hide old fields
+                        command_field.style.display = "none";
+                        action_field.style.display = "none";
+
+
+                    });
+                }
             }
 
+            //Submit listener for edit
+            document.getElementById("form_edit").addEventListener("submit",
+            function() {
+                console.log("submited");
+                return false;
+            });
         }
     });
 }
