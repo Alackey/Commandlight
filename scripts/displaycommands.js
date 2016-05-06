@@ -267,7 +267,27 @@ function displayCommands () {
             //Submit listener for edit
             document.getElementById("form_edit").addEventListener("submit",
             function(event) {
-                console.log("submited");
+                var form_elements = document.getElementById("form_edit").elements;
+                var cmd_edit_value = form_elements[1].value;
+                var action_edit_value = form_elements[2].value;
+                var cmd_edit_td = form_elements[1].parentNode;
+                var action_edit_td = form_elements[2].parentNode;
+                var cmd_ele = action_edit_td.nextSibling;
+                var action_ele = action_edit_td.nextSibling.nextSibling;
+
+                //Remove edit inputs
+                cmd_edit_td.parentNode.removeChild(cmd_edit_td);
+                action_edit_td.parentNode.removeChild(action_edit_td);
+
+                //Display cmd and action td's
+                cmd_ele.style.display = "table-cell";
+                action_ele.style.display = "table-cell";
+
+                //Check if it was changed
+
+
+                //chrome.runtime.sendMessage({'req': "editCommand"})
+
                 event.preventDefault();
             });
         }
