@@ -67,7 +67,7 @@ document.getElementById("addCommandBtn").addEventListener("click", function(even
         url = url.match(/^http[s]*:\/\//) ? url : 'http://' + url;  //Add http
 
         //Send command background.js to be saved
-        chrome.runtime.sendMessage({"command": command, "url": url},
+        chrome.runtime.sendMessage({"req": "add", "command": command, "url": url},
         function(response) {
             console.log(response.res);
 

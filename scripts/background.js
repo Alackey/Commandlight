@@ -10,7 +10,7 @@ chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
 
         //Adding a command
-        if (request.url && request.command) {
+        if (request.req == "add") {
             var url = request.url;
             var command = request.command;
 
