@@ -295,6 +295,8 @@ function displayCommands () {
                     },
                     function(response) {
                         console.log(response.res);
+                        cmd_ele.innerHTML = cmd_edit_value;
+                        action_ele.innerHTML = action_edit_value;
                 });
 
                 event.preventDefault();
