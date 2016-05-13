@@ -286,7 +286,16 @@ function displayCommands () {
                 //Check if it was changed
 
 
-                //chrome.runtime.sendMessage({'req': "editCommand"})
+                chrome.runtime.sendMessage(
+                    {
+                        "req": "update",
+                        "command_old": cmd_ele.innerHTML,
+                        "command": cmd_edit_value,
+                        "action": action_edit_value
+                    },
+                    function(response) {
+                        console.log(response.res);
+                });
 
                 event.preventDefault();
             });
