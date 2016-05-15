@@ -198,13 +198,21 @@ function displayCommands () {
                             .setAttribute("id", this.parentElement.id);
 
                     //Get and add command and action to conirmation window
-                    document.getElementById("confirm_action").innerHTML =
-                        this.previousSibling.innerHTML;
-                    document.getElementById("confirm_cmd").innerHTML =
-                        this.previousSibling.previousSibling.innerHTML;
+                    if (on_managePage) {
+                        document.getElementById("confirm_action").innerHTML =
+                            this.previousSibling.previousSibling.innerHTML;
+                        document.getElementById("confirm_cmd").innerHTML =
+                            this.previousSibling.previousSibling.previousSibling.innerHTML;
 
-                    document.getElementById("confirmationWindow").style.display = "inline";
+                        document.getElementById("confirmationWindow").style.display = "inline";
+                    } else {
+                        document.getElementById("confirm_action").innerHTML =
+                            this.previousSibling.innerHTML;
+                        document.getElementById("confirm_cmd").innerHTML =
+                            this.previousSibling.previousSibling.innerHTML;
 
+                        document.getElementById("confirmationWindow").style.display = "inline";
+                    }
                 });
 
                 //Add event listener for edit buttons

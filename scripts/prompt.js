@@ -40,7 +40,7 @@ var css = document.createTextNode("\
     #commandlight_prompt:-ms-input-placeholder { /* Internet Explorer 10-11 */  \
        color: white;                                                            \
     }                                                                           \
-    #commandlight_prompt {                                                                    \
+    #commandlight_prompt {                                                      \
         opacity:0;                                                              \
         -webkit-transition: opacity .1s;                                         \
         -moz-transition: opacity .1s;                                            \
