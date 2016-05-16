@@ -1,7 +1,9 @@
-
 //Clicking cancel on confirmation delete page
 document.getElementById("confirm_cancel").addEventListener("click", function() {
     document.getElementById("confirmationWindow").style.display = "none";
+
+    var tempIDNode = document.getElementById("confirm_q").nextSibling.nextSibling;
+    tempIDNode.id = "tempID";
 });
 
 //Clicking delete on confirmation delete page
@@ -12,7 +14,7 @@ document.getElementById("confirm_delete").addEventListener("click", function() {
     function(response){
 
         var tempIDNode = document.getElementById("confirm_q").nextSibling.nextSibling;
-        console.log(tempIDNode.id);
+        
         var row_id = tempIDNode.id;
         tempIDNode.id = "tempID";
         var row_ele = document.getElementById(row_id);
